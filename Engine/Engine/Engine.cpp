@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "Level/Level.h"
 #include <iostream>
 #include <Windows.h>
 
@@ -49,6 +50,7 @@ namespace Wanted
 				ProcessInput();
 
 				// 프레임처리
+				BeginPlay();
 				Tick(deltaTime);
 				Draw();
 
@@ -92,6 +94,18 @@ namespace Wanted
 		return keyStates[keyCode].isKeyDown;
 	}
 
+	void Engine::SetNewLevel(Level*& newLevel)
+	{
+		// todo: 임시 코드. 레벨 전환 시 바로 제거 x
+		if (mainLevel) {
+			delete mainLevel;
+			mainLevel = nullptr;
+		}
+
+		// set level
+		mainLevel = newLevel;
+	}
+
 	void Engine::ProcessInput()
 	{
 		// 키 마다의 입력 읽기.
@@ -103,19 +117,47 @@ namespace Wanted
 		}
 	}
 
+	void Engine::BeginPlay()
+	{
+		// 레벨이 있으면 이벤트 전달
+		if (!mainLevel) {
+			std::cout << "mainLevel is empty. \n";
+			return;
+		}
+
+		mainLevel->BeginPlay();
+	}
+
 	void Engine::Tick(float deltaTime)
 	{
-		std::cout << "DeltaTime: " << deltaTime
-			<< ", FPS: " << (1.0f / deltaTime) << "\n";
+		//std::cout << "DeltaTime: " << deltaTime
+		//	<< ", FPS: " << (1.0f / deltaTime) << "\n";
 
-		// ESC 키 눌리면 종료
-		if (GetKeyDown(VK_ESCAPE))
+		//// ESC 키 눌리면 종료
+		//if (GetKeyDown(VK_ESCAPE))
+		//{
+		//	QuitEngine();
+		//}
+		
+		// event to level
+
+		if (!mainLevel)
 		{
-			QuitEngine();
+			std::cout << "Error: Engine::Tick(). mainLevel is empty\n";
+			return;
 		}
+
+		mainLevel->Tick(deltaTime);
 	}
 
 	void Engine::Draw()
 	{
+		if (!mainLevel)
+		{
+			std::cout << "Error: Engine::Draw(). mainLevel is empty\n";
+			return;
+		}
+
+		mainLevel->Draw();
 	}
 }

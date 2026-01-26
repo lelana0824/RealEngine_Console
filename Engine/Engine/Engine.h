@@ -2,6 +2,8 @@
 
 namespace Wanted
 {
+	class Level;
+
 	// Main game engine class;
 	class Engine
 	{
@@ -33,8 +35,14 @@ namespace Wanted
 		// 눌려있음
 		bool GetKey(int keyCode);
 
+		// add new level;
+		void SetNewLevel(class Level*& newLevel);
+
 	private:
 		void ProcessInput();
+
+		// start game play
+		void BeginPlay();
 
 		void Tick(float deltaTime);
 
@@ -46,6 +54,9 @@ namespace Wanted
 		
 		// 키 상태 저장용 배열.
 		KeyState keyStates[255] = {};
+
+		// main level
+		class Level* mainLevel = nullptr;
 	};
 }
 
