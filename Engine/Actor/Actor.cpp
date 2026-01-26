@@ -14,6 +14,7 @@ namespace Wanted
 
 	void Actor::BeginPlay()
 	{
+		hasBeganPlay = true;
 	}
 	void Actor::Tick(float deltaTime)
 	{

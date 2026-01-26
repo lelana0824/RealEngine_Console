@@ -16,6 +16,8 @@ namespace Wanted {
 		virtual void Tick(float deltaTime);
 		virtual void Draw();
 
+		void AddNewActor(Actor* newActor);
+
 	protected:
 		std::vector<Actor*> actors;
 	};

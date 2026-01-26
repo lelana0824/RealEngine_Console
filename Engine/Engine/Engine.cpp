@@ -12,6 +12,11 @@ namespace Wanted
 
 	Engine::~Engine()
 	{
+		if (mainLevel)
+		{
+			delete mainLevel;
+			mainLevel = nullptr;
+		}
 	}
 
 	void Engine::Run()
@@ -94,7 +99,7 @@ namespace Wanted
 		return keyStates[keyCode].isKeyDown;
 	}
 
-	void Engine::SetNewLevel(Level*& newLevel)
+	void Engine::SetNewLevel(Level* newLevel)
 	{
 		// todo: 임시 코드. 레벨 전환 시 바로 제거 x
 		if (mainLevel) {
@@ -134,10 +139,10 @@ namespace Wanted
 		//	<< ", FPS: " << (1.0f / deltaTime) << "\n";
 
 		//// ESC 키 눌리면 종료
-		//if (GetKeyDown(VK_ESCAPE))
-		//{
-		//	QuitEngine();
-		//}
+		if (GetKeyDown(VK_ESCAPE))
+		{
+			QuitEngine();
+		}
 		
 		// event to level
 

@@ -36,7 +36,7 @@ namespace Wanted
 		bool GetKey(int keyCode);
 
 		// add new level;
-		void SetNewLevel(class Level*& newLevel);
+		void SetNewLevel(class Level* newLevel);
 
 	private:
 		void ProcessInput();
