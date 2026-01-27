@@ -1,11 +1,14 @@
 #pragma once
+#pragma warning(disable: 4251)
+
 #include <vector>
+#include "Common/Common.h"
 
 namespace Wanted {
-	class Actor;
+	class  Actor;
 
 	// 담당임무: 레벨에 있는 모든 액터 관리.
-	class Level
+	class WANTED_API Level
 	{
 	public:
 		Level();

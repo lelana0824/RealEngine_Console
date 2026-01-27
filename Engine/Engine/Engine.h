@@ -1,11 +1,12 @@
 #pragma once
+#include "Common/Common.h"
 
 namespace Wanted
 {
-	class Level;
+	class  Level;
 
 	// Main game engine class;
-	class Engine
+	class WANTED_API Engine
 	{
 		// data.
 		// 키다운, 업, 키
