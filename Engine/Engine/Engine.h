@@ -19,6 +19,8 @@ namespace Wanted
 		// add new level;
 		void SetNewLevel(class Level* newLevel);
 
+		static Engine& Get();
+
 	private:
 		// start game play
 		void BeginPlay();
@@ -36,6 +38,8 @@ namespace Wanted
 	
 		// main level
 		class Level* mainLevel = nullptr;
+
+		static Engine* instance;
 	};
 }
 
