@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.36908.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{FE98D799-9D84-46BC-9A49-E72775739CB1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "..\Wanted_Game\Game\Game.vcxproj", "{9EA0FC1C-3BAF-4A7E-A1C8-18437BE0D1DF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{9EA0FC1C-3BAF-4A7E-A1C8-18437BE0D1DF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FE98D799-9D84-46BC-9A49-E72775739CB1} = {FE98D799-9D84-46BC-9A49-E72775739CB1}
 	EndProjectSection
