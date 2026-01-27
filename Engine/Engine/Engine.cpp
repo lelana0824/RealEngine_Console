@@ -1,5 +1,7 @@
 #include "Engine.h"
 #include "Level/Level.h"
+#include "Core/Input.h"
+
 #include <iostream>
 #include <Windows.h>
 
@@ -7,7 +9,8 @@ namespace Wanted
 {
 	Engine::Engine()
 	{
-
+		// 입력 관리자 생성
+		input = new Input();
 	}
 
 	Engine::~Engine()
@@ -16,6 +19,12 @@ namespace Wanted
 		{
 			delete mainLevel;
 			mainLevel = nullptr;
+		}
+
+		if (input)
+		{
+			delete input;
+			input = nullptr;
 		}
 	}
 
@@ -52,7 +61,7 @@ namespace Wanted
 			// 고정프레임기법
 			if (deltaTime >= oneFrameTime)
 			{
-				ProcessInput();
+				input->ProcessInput();
 
 				// 프레임처리
 				BeginPlay();
@@ -62,13 +71,7 @@ namespace Wanted
 				// 이전 시간 값 갱신.
 				previousTime = currentTime;
 
-				// 현재 입력 값을 이전 입력 값으로 저장
-				// 키 마다의 입력 읽기.
-				// 운영체제가 제공하는 기능을 사용할수 밖에 없음.
-				for (int i = 0; i < 255; i++)
-				{
-					keyStates[i].wasKeyDown = keyStates[i].isKeyDown;
-				}
+				input->SavePreviousInputStates();
 			}
 			
 		}
@@ -82,23 +85,6 @@ namespace Wanted
 		isQuit = true;
 	}
 
-	bool Engine::GetKeyDown(int keyCode)
-	{
-		return keyStates[keyCode].isKeyDown &&
-			!keyStates[keyCode].wasKeyDown;
-	}
-
-	bool Engine::GetKeyUp(int keyCode)
-	{
-		return !keyStates[keyCode].isKeyDown &&
-			keyStates[keyCode].wasKeyDown;;
-	}
-
-	bool Engine::GetKey(int keyCode)
-	{
-		return keyStates[keyCode].isKeyDown;
-	}
-
 	void Engine::SetNewLevel(Level* newLevel)
 	{
 		// todo: 임시 코드. 레벨 전환 시 바로 제거 x
@@ -109,17 +95,6 @@ namespace Wanted
 
 		// set level
 		mainLevel = newLevel;
-	}
-
-	void Engine::ProcessInput()
-	{
-		// 키 마다의 입력 읽기.
-		// 운영체제가 제공하는 기능을 사용할수 밖에 없음.
-		for (int i = 0; i < 255; i++)
-		{
-			keyStates[i].isKeyDown
-				= (GetAsyncKeyState(i) & 0x8000) > 0 ? true : false;
-		}
 	}
 
 	void Engine::BeginPlay()
@@ -139,7 +114,7 @@ namespace Wanted
 		//	<< ", FPS: " << (1.0f / deltaTime) << "\n";
 
 		//// ESC 키 눌리면 종료
-		if (GetKeyDown(VK_ESCAPE))
+		if (input->GetKeyDown(VK_ESCAPE))
 		{
 			QuitEngine();
 		}
