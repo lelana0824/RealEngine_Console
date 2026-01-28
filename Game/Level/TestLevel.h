@@ -3,6 +3,7 @@
 
 class TestLevel : public Wanted::Level
 {
+	RTTI_DECLARATIONS(TestLevel, Level)
 public:
 	TestLevel();
 };

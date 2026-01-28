@@ -3,7 +3,7 @@
 
 class TestActor : public Wanted::Actor
 {
-public:
+	RTTI_DECLARATIONS(TestActor, Actor)
 
 protected:
 	virtual void BeginPlay() override;
