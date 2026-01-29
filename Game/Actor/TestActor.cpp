@@ -3,16 +3,21 @@
 #include "Engine/Engine.h"
 #include <iostream>
 
+TestActor::TestActor()
+	:super('T', Wanted::Vector2(31,3))
+{
+
+}
+
 void TestActor::BeginPlay()
 {
-	Actor::BeginPlay();
+	super::BeginPlay();
 
-	std::cout << "TestActor::BeginPlay().\n";
 }
 
 void TestActor::Tick(float deltaTime)
 {
-	Actor::Tick(deltaTime);
+	super::Tick(deltaTime);
 
 
 	//// ESC 키 눌리면 종료
@@ -22,13 +27,45 @@ void TestActor::Tick(float deltaTime)
 		Wanted::Engine::Get().QuitEngine();
 	}
 
+	if (Wanted::Input::Get().GetKey('D')
+		&& GetPosition().x >= 0)
+	{
+		Wanted::Vector2 newPosition = GetPosition();
+		newPosition.x += 1;
+		SetPosition(newPosition);
+	}
 
-	std::cout << "TestActor::Tick(). deltaTime: "
+	if (Wanted::Input::Get().GetKey('A')
+		&& GetPosition().x >= 0)
+	{
+		Wanted::Vector2 newPosition = GetPosition();
+		newPosition.x -= 1;
+		SetPosition(newPosition);
+	}
+
+	if (Wanted::Input::Get().GetKey('W')
+		&& GetPosition().y >= 0)
+	{
+		Wanted::Vector2 newPosition = GetPosition();
+		newPosition.y -= 1;
+		SetPosition(newPosition);
+	}
+
+	if (Wanted::Input::Get().GetKey('S')
+		&& GetPosition().y >= 0)
+	{
+		Wanted::Vector2 newPosition = GetPosition();
+		newPosition.y += 1;
+		SetPosition(newPosition);
+	}
+
+
+	/*std::cout << "TestActor::Tick(). deltaTime: "
 		<< deltaTime << ", FPS: " << (1.0f / deltaTime)
-		<< "\n";
+		<< "\n";*/
 }
 
 void TestActor::Draw()
 {
-	Actor::Draw();
+	super::Draw();
 }

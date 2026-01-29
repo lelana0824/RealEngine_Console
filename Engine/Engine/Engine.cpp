@@ -18,6 +18,20 @@ namespace Wanted
 		input = new Input();
 
 		LoadSetting();
+
+		// 커서 끄기
+		CONSOLE_CURSOR_INFO info = {};
+
+		GetConsoleCursorInfo(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			&info
+		);
+
+		info.bVisible = false;
+		SetConsoleCursorInfo(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			&info
+		);
 	}
 
 	Engine::~Engine()
@@ -88,6 +102,19 @@ namespace Wanted
 
 		// Todo: 정리작업
 		std::cout << "Engine has been shutdown!!\n";
+		// 커서 끄기
+		CONSOLE_CURSOR_INFO info = {};
+
+		GetConsoleCursorInfo(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			&info
+		);
+
+		info.bVisible = true;
+		SetConsoleCursorInfo(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			&info
+		);
 	}
 
 	void Engine::QuitEngine()
