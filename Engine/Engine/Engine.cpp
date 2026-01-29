@@ -16,6 +16,8 @@ namespace Wanted
 
 		// 입력 관리자 생성
 		input = new Input();
+
+		LoadSetting();
 	}
 
 	Engine::~Engine()
@@ -49,8 +51,11 @@ namespace Wanted
 		previousTime = currentTime;
 
 		// 기준 프레임 (단위초)
-		float targetFrameRate = 120.0f;
-		float oneFrameTime = 1.0f / targetFrameRate;
+		//float targetFrameRate = 120.0f;
+		setting.framerate
+			= setting.framerate == 0.0f ? 60.0f : setting.framerate;
+
+		float oneFrameTime = 1.0f / setting.framerate;
 
 		while (!isQuit)
 		{
@@ -110,6 +115,29 @@ namespace Wanted
 			__debugbreak();
 		}
 		return *instance;
+	}
+
+	void Engine::LoadSetting()
+	{
+		FILE* file = nullptr;
+		fopen_s(&file, "../Config/Setting.txt", "rt");
+		if (!file)
+		{
+			std::cout << "Failed to open engine setting file.\n";
+			__debugbreak();
+			return;
+		}
+
+		char buffer[2048] = {};
+
+		size_t readSize = fread(buffer, sizeof(char), 2048, file);
+
+		// 문자열 포맷 활용해서 데이터 추출.
+		sscanf_s(buffer, "framerate = %f", &setting.framerate);
+
+
+
+		fclose(file);
 	}
 
 	void Engine::BeginPlay()
