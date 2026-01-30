@@ -9,7 +9,7 @@
 Player::Player()
 	:super('P', Wanted::Vector2(5,3), Wanted::Color::Red)
 {
-
+	sortingOrder = 10;
 }
 
 void Player::BeginPlay()
