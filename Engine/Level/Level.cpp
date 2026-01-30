@@ -53,6 +53,38 @@ namespace Wanted
 	void Level::AddNewActor(Actor* newActor)
 	{
 		// todo: 나중에 프레임 처리 고려해서 따로 추가 작업
-		actors.emplace_back(newActor);
+		//actors.emplace_back(newActor);
+		addRequestedActors.emplace_back(newActor);
+	}
+	void Level::ProcessAddAndDestroyActors()
+	{
+		// 제거 처리
+		for (int i = 0; i < static_cast<int>(actors.size());)
+		{
+			// 제거 요청된 액터가 있는지 확인
+			if (actors[i]->IsDestroyRequested())
+			{
+				// 삭제처리
+				delete actors[i];
+				actors.erase(actors.begin() + i);
+				continue;
+			}
+
+			++i;
+		}
+
+
+		// 추가 처리.
+		if (addRequestedActors.size() == 0)
+		{
+			return;
+		}
+
+		for (Actor* const actor : addRequestedActors)
+		{
+			actors.emplace_back(actor);
+		}
+
+		addRequestedActors.clear();
 	}
 }

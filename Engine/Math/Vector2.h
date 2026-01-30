@@ -1,5 +1,6 @@
 #pragma once
-#include "Common/RTTI.h"
+#include "Common/Common.h"
+#include <Windows.h>
 
 namespace Wanted
 {
@@ -19,6 +20,7 @@ namespace Wanted
 		bool operator==(const Vector2 other) const;
 		bool operator!=(const Vector2 other) const;
 
+		operator COORD() const;
 
 		static Vector2 Zero;
 		static Vector2 One;

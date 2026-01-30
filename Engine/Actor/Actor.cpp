@@ -1,4 +1,5 @@
 #include "Actor.h"
+#include "Util/Util.h"
 #include <iostream>
 #include <Windows.h>
 
@@ -25,29 +26,14 @@ namespace Wanted
 	void Actor::Draw()
 	{
 		// 액터의 현재 좌표로 콘솔 좌표 위치 이동
-		COORD coord = {};
-		coord.X = static_cast<short>(position.x);
-		coord.Y = static_cast<short>(position.y);
-		
-		SetConsoleCursorPosition(
-			GetStdHandle(STD_OUTPUT_HANDLE),
-			coord
-		);
+		Util::SetConsolePosition(position);
 
 		// 이동한 좌표에서 글자 그리기.
 		std::cout << image;
 	}
 	void Actor::SetPosition(const Vector2& newPosition)
 	{
-		// 액터의 현재 좌표로 콘솔 좌표 위치 이동
-		COORD coord = {};
-		coord.X = static_cast<short>(position.x);
-		coord.Y = static_cast<short>(position.y);
-
-		SetConsoleCursorPosition(
-			GetStdHandle(STD_OUTPUT_HANDLE),
-			coord
-		);
+		Util::SetConsolePosition(position);
 
 		// 해당 위치의 글자 값 지우기 (빈칸 그리기).
 		std::cout << ' ';
