@@ -52,10 +52,13 @@ namespace Wanted
 	}
 	void Level::AddNewActor(Actor* newActor)
 	{
-		// todo: 나중에 프레임 처리 고려해서 따로 추가 작업
-		//actors.emplace_back(newActor);
+		// 나중에 추가를 위해 임시 배열에 저장.
 		addRequestedActors.emplace_back(newActor);
+
+		// 오너십 설정.
+		newActor->SetOwner(this);
 	}
+
 	void Level::ProcessAddAndDestroyActors()
 	{
 		// 제거 처리

@@ -17,8 +17,6 @@ namespace Wanted
 			
 		};
 
-
-
 	public:
 		Engine();
 		~Engine();
@@ -43,6 +41,9 @@ namespace Wanted
 		void Draw();
 
 	private:
+		// 정리 함수
+		void Shutdown();
+
 		// engine out flag;
 		bool isQuit = false;
 

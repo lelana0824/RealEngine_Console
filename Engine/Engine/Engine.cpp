@@ -96,9 +96,7 @@ namespace Wanted
 			
 		}
 
-		// Todo: 정리작업
-		std::cout << "Engine has been shutdown!!\n";
-		Util::TurnOnCursor();
+		Shutdown();
 	}
 
 	void Engine::QuitEngine()
@@ -187,5 +185,10 @@ namespace Wanted
 		}
 
 		mainLevel->Draw();
+	}
+	void Engine::Shutdown()
+	{
+		std::cout << "Engine has been shutdown!!\n";
+		Util::TurnOnCursor();
 	}
 }

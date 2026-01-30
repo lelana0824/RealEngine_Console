@@ -1,7 +1,7 @@
 #include "TestLevel.h"
-#include "Actor/TestActor.h"
+#include "Actor/Player.h"
 
 TestLevel::TestLevel()
 {
-	AddNewActor(new TestActor());
+	AddNewActor(new Player());
 }

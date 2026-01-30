@@ -1,15 +1,20 @@
 #pragma once
 #include "Common/RTTI.h"
 #include "Math/Vector2.h"
+#include "Math/Color.h"
 
 namespace Wanted {
+	
+	class Level;
+
 	class WANTED_API Actor : public RTTI
 	{
 		// RTTI 코드 추가
 		RTTI_DECLARATIONS(Actor, RTTI)
 	public:
 		Actor(const char image = ' ', 
-			const Vector2& position = Vector2::Zero
+			const Vector2& position = Vector2::Zero,
+			Color color = Color::White
 		);
 		virtual ~Actor();
 
@@ -23,6 +28,11 @@ namespace Wanted {
 		inline Vector2 GetPosition() const {
 			return position;
 		}
+
+
+		// 오너십 추가읽기 함수
+		inline void SetOwner(Level* newOwner) { owner = newOwner; }
+		inline Level* GetOwner() const { return owner; }
 
 		// Getter;
 		inline bool HasBeganPlay() const { 
@@ -46,6 +56,11 @@ namespace Wanted {
 		bool destroyRequested = false;
 
 		char image = ' ';
+
+		Color color = Color::White;
+
+		// 오너십 Ownership.
+		Level* owner = nullptr;
 
 	private:
 		Vector2 position;
