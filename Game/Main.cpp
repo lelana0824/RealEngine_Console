@@ -7,11 +7,6 @@ using namespace Wanted;
 
 int main()
 {
-	/*Wanted::Engine engine;
-
-	engine.SetNewLevel(new SokobanLevel());
-	engine.Run();*/
-	
 	Game game;
 	game.Run();
 

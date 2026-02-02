@@ -3,7 +3,7 @@
 #include "Engine/Engine.h"
 #include "Actor/Box.h"
 #include "Level/Level.h"
-
+#include "Game/Game.h"
 #include "Interface/ICanPlayerMove.h"
 
 #include <iostream>
@@ -23,22 +23,18 @@ void Player::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
 
-
-	//// 종료 키
-	if (Wanted::Input::Get().GetKeyDown('Q'))
+	// ESC키 처리
+	if (Wanted::Input::Get().GetKeyDown(VK_ESCAPE))
 	{
-		// todo: game엔진 종료 요청.
-		Wanted::Engine::Get().QuitEngine();
+		Game::Get().ToggleMenu();
+		return;
 	}
 
-	// 스페이스로 박스 생성
-	//if (Input::Get().GetKeyDown(VK_SPACE))
-	//{
-	//	if (owner)
-	//	{
-	//		owner->AddNewActor(new Box(GetPosition()));
-	//	}
-	//}
+	// 종료 키
+	if (Wanted::Input::Get().GetKeyDown('Q'))
+	{
+		Wanted::Engine::Get().QuitEngine();
+	}
 
 	// 인터페이스 확인
 	static ICanPlayerMove* canPlayerMoveInterface = nullptr;
