@@ -4,6 +4,8 @@
 #include "Actor/Box.h"
 #include "Level/Level.h"
 
+#include "Interface/ICanPlayerMove.h"
+
 #include <iostream>
 
 Player::Player(const Wanted::Vector2& position)
@@ -30,44 +32,85 @@ void Player::Tick(float deltaTime)
 	}
 
 	// 스페이스로 박스 생성
-	if (Input::Get().GetKeyDown(VK_SPACE))
+	//if (Input::Get().GetKeyDown(VK_SPACE))
+	//{
+	//	if (owner)
+	//	{
+	//		owner->AddNewActor(new Box(GetPosition()));
+	//	}
+	//}
+
+	// 인터페이스 확인
+	static ICanPlayerMove* canPlayerMoveInterface = nullptr;
+
+	if (!canPlayerMoveInterface && GetOwner())
 	{
-		if (owner)
+		canPlayerMoveInterface
+			= dynamic_cast<ICanPlayerMove*>(GetOwner());
+	}
+
+	if (Wanted::Input::Get().GetKeyDown('D')
+		&& GetPosition().x < 20)
+	{
+		// 이동 가능 여부 판단
+		Vector2 newPosition(
+			GetPosition().x + 1, GetPosition().y
+		);
+		if (canPlayerMoveInterface->CanMove(
+			GetPosition(),
+			newPosition
+		))
 		{
-			owner->AddNewActor(new Box(GetPosition()));
+			SetPosition(newPosition);
 		}
 	}
 
-	if (Wanted::Input::Get().GetKey('D')
-		&& GetPosition().x < 20)
-	{
-		Wanted::Vector2 newPosition = GetPosition();
-		newPosition.x += 1;
-		SetPosition(newPosition);
-	}
-
-	if (Wanted::Input::Get().GetKey('A')
+	if (Wanted::Input::Get().GetKeyDown('A')
 		&& GetPosition().x > 0)
 	{
-		Wanted::Vector2 newPosition = GetPosition();
-		newPosition.x -= 1;
-		SetPosition(newPosition);
+		// 이동 가능 여부 판단
+		Vector2 newPosition(
+			GetPosition().x - 1, GetPosition().y
+		);
+		if (canPlayerMoveInterface->CanMove(
+			GetPosition(),
+			newPosition
+		))
+		{
+			SetPosition(newPosition);
+		}
 	}
 
-	if (Wanted::Input::Get().GetKey('W')
+	if (Wanted::Input::Get().GetKeyDown('W')
 		&& GetPosition().y > 0)
 	{
-		Wanted::Vector2 newPosition = GetPosition();
-		newPosition.y -= 1;
-		SetPosition(newPosition);
+		// 이동 가능 여부 판단
+		Vector2 newPosition(
+			GetPosition().x, GetPosition().y - 1
+		);
+		if (canPlayerMoveInterface->CanMove(
+			GetPosition(),
+			newPosition
+		))
+		{
+			SetPosition(newPosition);
+		}
 	}
 
-	if (Wanted::Input::Get().GetKey('S')
+	if (Wanted::Input::Get().GetKeyDown('S')
 		&& GetPosition().y < 15)
 	{
-		Wanted::Vector2 newPosition = GetPosition();
-		newPosition.y += 1;
-		SetPosition(newPosition);
+		// 이동 가능 여부 판단
+		Vector2 newPosition(
+			GetPosition().x, GetPosition().y + 1
+		);
+		if (canPlayerMoveInterface->CanMove(
+			GetPosition(),
+			newPosition
+		))
+		{
+			SetPosition(newPosition);
+		}
 	}
 
 }
