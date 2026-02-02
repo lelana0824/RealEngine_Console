@@ -19,17 +19,18 @@ namespace Wanted
 
 	public:
 		Engine();
-		~Engine();
+		virtual ~Engine();
 
 		// engine loop (game loop);
 		void Run();
 		void QuitEngine();
+		
 		// add new level;
 		void SetNewLevel(class Level* newLevel);
 
 		static Engine& Get();
 
-	private:
+	protected:
 		// 설정파일 로드 함수
 		void LoadSetting();
 
@@ -40,7 +41,7 @@ namespace Wanted
 
 		void Draw();
 
-	private:
+	protected:
 		// 정리 함수
 		void Shutdown();
 

@@ -1,15 +1,19 @@
 #include <iostream>
 #include "Engine/Engine.h"
+#include "Game/Game.h"
 #include "Level/SokobanLevel.h"
 
 using namespace Wanted;
 
 int main()
 {
-	Wanted::Engine engine;
+	/*Wanted::Engine engine;
 
 	engine.SetNewLevel(new SokobanLevel());
-	engine.Run();
+	engine.Run();*/
+	
+	Game game;
+	game.Run();
 
 	std::cin.get();
 }

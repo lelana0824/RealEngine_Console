@@ -4,6 +4,7 @@
 #include "Actor/Ground.h"
 #include "Actor/Box.h"
 #include "Actor/Target.h"
+#include "Util/Util.h"
 
 #include <iostream>
 
@@ -12,6 +13,21 @@ SokobanLevel::SokobanLevel()
 	//AddNewActor(new Player());
 	//LoadMap("Stage1.txt");
 	LoadMap("Map.txt");
+}
+
+void SokobanLevel::Draw()
+{
+	super::Draw();
+
+	if (CheckGameClear())
+	{
+		// 콘솔 위치/색상 설정.
+		Util::SetConsolePosition(Vector2(30, 0));
+		Util::SetConsoleTextColor(Color::White);
+
+		// 게임 클리어 메시지
+		std::cout << "Game Clear!\n";
+	}
 }
 
 void SokobanLevel::LoadMap(const char* filename)
@@ -107,6 +123,7 @@ void SokobanLevel::LoadMap(const char* filename)
 
 		case 't':
 			AddNewActor(new Target(position));
+			++targetScore;
 			break;
 		}
 
@@ -134,5 +151,125 @@ bool SokobanLevel::CanMove(
 		}
 	}
 
+	// 이동하려는 위치에 박스가 있는지 확인
+	Actor* boxActor = nullptr;
+	for (Actor* const box : boxes)
+	{
+		// 위치 비교
+		if (box->GetPosition() == nextPosition)
+		{
+			boxActor = box;
+			break;
+		}
+	}
+
+	// 경우의 수 처리
+	// 이동하려는 곳에 박스가 있는 경우
+	if (boxActor)
+	{
+		// #1: 박스를 이동시키려는 위치에 다른 박스가 또 있는지 확인
+		// 두 위치 사이에서 이동 방향 구하기 (벡터의 뻴셈 활용).
+		Vector2 direction = nextPosition - playerPosition;
+		Vector2 newPosition = boxActor->GetPosition() + direction;
+
+		// 검색
+		for (Actor* const otherBox : boxes)
+		{
+			if (otherBox == boxActor)
+			{
+				continue;
+			}
+
+			// 다른 박스가 있는지 확인
+			if (otherBox->GetPosition() == newPosition)
+			{
+				return false;
+			}
+		}
+
+		for (Actor* const actor : actors)
+		{
+			if (actor->GetPosition() == newPosition)
+			{
+				// #2: 벽이면 이동 불가.
+				if (actor->IsTypeOf<Wall>())
+				{
+					return false;
+				}
+
+				// #3: 그라운드 또는 타겟이면 이동 가능.
+				if (actor->IsTypeOf<Ground>()
+					|| actor->IsTypeOf<Target>())
+				{
+					// 박스 이동 처리
+					boxActor->SetPosition(newPosition);
+
+					// 게임 점수 확인.
+					isGameClear = CheckGameClear();
+
+					return true;
+				}
+			}
+		}
+	}
+
+
+	// 이동하려는 곳에 박스가 없는 경우.
+	// 이동하려는 곳에 있는 액터가 벽이 아니면 이동 가능
+	for (Actor* const actor : actors)
+	{
+		if (actor->GetPosition() == nextPosition)
+		{
+			// 이 액터가 벽인지 확인.
+			if (actor->IsTypeOf<Wall>())
+			{
+				return false;
+			}
+
+			return true;
+		}
+	}
+
 	return false;
+}
+
+bool SokobanLevel::CheckGameClear()
+{
+	// 타겟 위에 있는 박스의 수 검증.
+
+	int currentScore = 0;
+
+	// 동적배열에 박스 및 타겟 저장.
+	std::vector<Actor*> boxes;
+	std::vector<Actor*> targets;
+
+	// 레벨에 배치된 배열 순회하면서 두 액터 필터링.
+	for (Actor* const actor : actors)
+	{
+		if (actor->IsTypeOf<Box>())
+		{
+			boxes.emplace_back(actor);
+			continue;
+		}
+
+		if (actor->IsTypeOf<Target>())
+		{
+			targets.emplace_back(actor);
+			continue;
+		}
+	}
+
+	// 점수 확인 (박스의 위치 == 타겟의 위치)
+	for (Actor* const box : boxes)
+	{
+		for (Actor* const target : targets)
+		{
+			if (box->GetPosition() == target->GetPosition())
+			{
+				currentScore += 1;
+			}
+		}
+	}
+
+	return currentScore == targetScore;
 }
