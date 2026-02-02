@@ -6,8 +6,8 @@
 
 #include <iostream>
 
-Player::Player()
-	:super('P', Wanted::Vector2(5,3), Wanted::Color::Red)
+Player::Player(const Wanted::Vector2& position)
+	:super('P', position, Wanted::Color::Red)
 {
 	sortingOrder = 10;
 }

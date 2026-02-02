@@ -6,7 +6,7 @@ class Player : public Wanted::Actor
 	RTTI_DECLARATIONS(Player, Actor)
 
 public:
-	Player();
+	Player(const Wanted::Vector2& position);
 
 
 protected:
