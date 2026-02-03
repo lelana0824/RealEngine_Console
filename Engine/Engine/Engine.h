@@ -5,6 +5,7 @@ namespace Wanted
 {
 	class Input;
 	class Level;
+	class Renderer;
 
 	// Main game engine class;
 	class WANTED_API Engine
@@ -15,6 +16,8 @@ namespace Wanted
 			// 프레임 속도
 			float framerate = 0.0f;
 			
+			int width = 0;
+			int height = 0;
 		};
 
 	public:
@@ -53,11 +56,15 @@ namespace Wanted
 
 		// 입력 관리자
 		Input* input = nullptr;
-	
+		
+		// 렌더러 객체
+		Renderer* renderer = nullptr;
+
 		// main level
 		class Level* mainLevel = nullptr;
 
 		static Engine* instance;
+		
 	};
 }
 

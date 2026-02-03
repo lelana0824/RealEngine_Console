@@ -44,33 +44,10 @@ namespace Wanted
 	}
 	void Level::Draw()
 	{
-		// 액터에 이벤트 흘리기
-		for (Actor* actor : actors)
+		// 액터 순회하면서 Draw 함수 호출.
+		for (Actor* const actor : actors)
 		{
-			// 같은 위치에 다른 액터가 있는지 확인 위함
-			Actor* search = nullptr;
-			for (Actor* otherActor : actors)
-			{
-				if (actor == otherActor)
-				{
-					continue;
-				}
-
-				// 위치비교
-				if (actor->GetPosition() == otherActor->GetPosition())
-				{
-					// 정렬 순서 비교.
-					if (actor->GetSortingOrder()
-						< otherActor->GetSortingOrder())
-					{
-						search = otherActor;
-						break;
-					}
-				}
-			}
-
-			// 같은 위치에 우선순위가 높은 다른 액터가 있으면 안그림
-			if (search)
+			if (!actor->IsActive())
 			{
 				continue;
 			}
