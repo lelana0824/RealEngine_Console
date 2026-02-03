@@ -43,7 +43,7 @@ namespace Wanted
 			const char* text,
 			const Vector2& position,
 			Color color = Color::White,
-			int sortingOOrder = 0
+			int sortingOrder = 0
 		);
 
 		static Renderer& Get();
