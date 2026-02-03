@@ -9,7 +9,7 @@
 #include <iostream>
 
 Player::Player(const Wanted::Vector2& position)
-	:super('P', position, Wanted::Color::Red)
+	:super("P", position, Wanted::Color::Red)
 {
 	sortingOrder = 10;
 }
